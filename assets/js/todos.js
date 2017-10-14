@@ -83,10 +83,16 @@ window.onload = function() {
 
   function drawTodoListAgain() {
     todoListHtml.innerHTML = "";
-
+    let flag = false;
     myTodoList.todos.forEach(function(todo) {
+      flag = todo.done || flag;
       addToDoHtml(todo.text, todo.done, todo.id)
     })
+    if(flag) {
+      delDone.style.display = "flex";
+    } else {
+      delDone.style.display = "none";
+    }
   }
 
   function addToDoHtml(todoText, todoDone, todoId) {
@@ -94,22 +100,25 @@ window.onload = function() {
 
     let innerHtml = "";
 
-    if (todoDone) {
-      innerHtml += '<input type="checkbox" data-target="todo-done" checked>'
+    innerHtml = `
+    <span class="todo-move">
+        <i class="fa fa-chevron-up todo-up" aria-hidden="true" data-target="todo-up"></i>
+        <i class="fa fa-chevron-down todo-down" aria-hidden="true" data-target="todo-down"></i>
+    </span>
+    `;
+    if(todoDone) {
+      innerHtml += `<span class="todo-text completed" data-target="todo-text">${todoText}</span>`;
     } else {
-      innerHtml += '<input type="checkbox" data-target="todo-done">'
+      innerHtml += `<span class="todo-text" data-target="todo-text">${todoText}</span>`;
     }
     innerHtml += `
-            <span class="todo-text">${todoText}</span>
-            <input type="button" value="Up" data-target="todo-up">
-            <input type="button" value="Down" data-target="todo-down">
-            <input type="button" value="Delete" data-target="todo-delete">
-            `;
+    <span class="todo-grow"></span>
+    <i class="fa fa-trash todo-del" aria-hidden="true" data-target="todo-delete"></i>
+    `;
 
     newListItem.innerHTML = innerHtml;
     newListItem.setAttribute("data-id", todoId);
     newListItem.addEventListener("click", liClickEvent);
-
     todoListHtml.appendChild(newListItem);
   }
 
@@ -119,9 +128,10 @@ window.onload = function() {
     const index = myTodoList.getTodoIndexById(event.currentTarget.getAttribute("data-id"));
     console.log(index);
     switch (event.target.getAttribute("data-target")) {
-      case "todo-done":
+      case "todo-text":
         const todo = myTodoList.todos[index];
         todo.toggleDone();
+        drawTodoListAgain();
         break;
       case "todo-up":
         myTodoList.moveUp(index);
