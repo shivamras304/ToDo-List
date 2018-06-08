@@ -62,11 +62,13 @@ window.onload = function() {
   const inputText = document.querySelector("#input-text");
   const delDone = document.querySelector("#del-done");
   const todoListHtml = document.querySelector("#todolist");
-  // let checkBox = document.querySelector("")
+
+  //XTODO: call GET all todos api here
   const myTodoList = new TodoList();
 
   inputText.addEventListener("keypress", function(event) {
     if (event.which === 13 && inputText.value) {
+      //XTODO: call POST api here
       const newTodo = new Todo(inputText.value, myTodoList.nextId);
       myTodoList.addTodo(newTodo);
 
@@ -100,11 +102,8 @@ window.onload = function() {
 
     let innerHtml = "";
 
-    innerHtml = `
-    <span class="todo-move">
-        <i class="fa fa-chevron-up todo-up" aria-hidden="true" data-target="todo-up"></i>
-        <i class="fa fa-chevron-down todo-down" aria-hidden="true" data-target="todo-down"></i>
-    </span>
+    innerHtml += `
+      <input class = "todo-done" data-target="todo-done" type="checkBox">
     `;
     if(todoDone) {
       innerHtml += `<span class="todo-text completed" data-target="todo-text">${todoText}</span>`;
@@ -123,26 +122,19 @@ window.onload = function() {
   }
 
   function liClickEvent(event) {
-
     // console.log(event.target.getAttribute("data-target"));
     const index = myTodoList.getTodoIndexById(event.currentTarget.getAttribute("data-id"));
     console.log(index);
     switch (event.target.getAttribute("data-target")) {
-      case "todo-text":
+      case "todo-done":
         const todo = myTodoList.todos[index];
         todo.toggleDone();
-        drawTodoListAgain();
-        break;
-      case "todo-up":
-        myTodoList.moveUp(index);
-        drawTodoListAgain();
-        break;
-      case "todo-down":
-        myTodoList.moveDown(index);
+        //XTODO: call PUT api here
         drawTodoListAgain();
         break;
       case "todo-delete":
         myTodoList.removeTodo(index);
+        //XTODO: call DELETE api here
         drawTodoListAgain();
         break;
     }

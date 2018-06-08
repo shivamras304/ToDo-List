@@ -98,6 +98,11 @@ li .todo-del:hover {
   background-color: #F44336;
 }
 
+li .todo-done {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
 .completed {
     color: #555;
     text-decoration: line-through;
