@@ -102,17 +102,21 @@ window.onload = function() {
 
     let innerHtml = "";
 
-    innerHtml += `
-      <input class = "todo-done" data-target="todo-done" type="checkBox">
-    `;
     if(todoDone) {
-      innerHtml += `<span class="todo-text completed" data-target="todo-text">${todoText}</span>`;
+      innerHtml += `
+        <input class = "todo-done" data-target="todo-done" type="checkBox" checked>
+        <span class="todo-text completed" data-target="todo-text">${todoText}</span>
+      `;
     } else {
-      innerHtml += `<span class="todo-text" data-target="todo-text">${todoText}</span>`;
+      innerHtml += `
+        <input class = "todo-done" data-target="todo-done" type="checkBox">
+        <span class="todo-text" data-target="todo-text">${todoText}</span>
+      `;
     }
+
     innerHtml += `
-    <span class="todo-grow"></span>
-    <i class="fa fa-trash todo-del" aria-hidden="true" data-target="todo-delete"></i>
+      <span class="todo-grow"></span>
+      <i class="fa fa-trash todo-del" aria-hidden="true" data-target="todo-delete"></i>
     `;
 
     newListItem.innerHTML = innerHtml;
